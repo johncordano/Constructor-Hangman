@@ -15,6 +15,7 @@ function Word(word) {
     }
     //console.log('checkLetters this.letters', this.letters);
     console.log(this.returnWordAsString());
+    return this.returnWordAsString();
   };
   this.createLetters = function() {
     for (var i = 0; i < word.length; i++) {
@@ -28,5 +29,20 @@ function Word(word) {
   	this.createLetters();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = Word;

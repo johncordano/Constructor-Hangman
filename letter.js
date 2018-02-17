@@ -1,29 +1,26 @@
-var Letter = function () {
-	this.correctLetter = correctLetter;
-	this.underscore = "_";
-	this.guessedLetter = guessedLetter;
-	this.processGuess = function () {
-		if (guessedLetter === correctLetter) {
-			console.log(this.correctLetter);
-			console.log("Correct!");	
+function Letter (character) {
+	this.character = character;
+	this.guessed = false;
+	this.processGuess = function (guessedLetter) {
+		if (guessedLetter === this.character) {
+      this.guessed = true;
 		}
-		else {
-			console.log(this.underscore);
-			console.log("Incorrect")
-		}
-	}
+	};
+  this.displayLetter = function () {
+    if (this.guessed === true) {
+      return this.character;
+    } else {
+      return '_';
+    }
+  };
 }
 
-
-
-
-
-
-
-
-
-
-
-
+// var letter = new Letter('c');
+// letter.processGuess('a');
+// console.log(letter.displayLetter());
+// letter.processGuess('c');
+// console.log(letter.displayLetter());
+// letter.processGuess('f');
+// console.log(letter.displayLetter());
 
 module.exports = Letter;
