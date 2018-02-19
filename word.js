@@ -11,7 +11,7 @@ function Word(word) {
         var wordInPlaceholders = '';
         for (var i = 0; i < word.length; i++) {
             wordInPlaceholders += this.wordCharacters[i].displayLetter() + ' ';
-            console.log('word in placeholders:', wordInPlaceholders)
+            // console.log('word in placeholders:', wordInPlaceholders);
         }
         return wordInPlaceholders;
     };
@@ -21,18 +21,18 @@ function Word(word) {
         for (var i = 0; i < this.wordCharacters.length; i++) {
             this.wordCharacters[i].processGuess(guessedLetter);
         }
-        console.log('review word characters:', this.wordCharacters);
-        console.log('word in placeholders2:', this.displayWordCharPlaceholders());
+        // console.log('review word characters:', this.wordCharacters);
+        // console.log('word in placeholders2:', this.displayWordCharPlaceholders());
         return this.displayWordCharPlaceholders();
     };
     // Create a function to populate the wordCharacters array with the characters in the hangman word.
     this.populateLetters = function() {
         for (var i = 0; i < word.length; i++) {
             var wordCharacter = new Letter(word.charAt(i));
-            console.log('Word character:', wordCharacter);
+            // console.log('Word character:', wordCharacter);
             this.wordCharacters.push(wordCharacter);
         }
-        console.log('wordCharacters array:', this.wordCharacters);
+        // console.log('wordCharacters array:', this.wordCharacters);
     };
     // Run the populateLetters function when the wordCharacters array is empty.
     if (this.wordCharacters.length === 0) {
