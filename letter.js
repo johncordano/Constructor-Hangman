@@ -3,7 +3,7 @@
 // Create the Letter constructor function, which has a hangman word character as its parameter.
 function Letter(character) {
     this.character = character;
-    this.guessed = false;
+    this.guessed = character === ' ' ? true : false;
     // Create the processGuess function, which has a player-guessed letter as its parameter.
     this.processGuess = function(guessedLetter) {
         // If the player-guessed letter is the same as the hangman word character, change the guessed value from the false default to true.

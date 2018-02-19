@@ -4,81 +4,80 @@ var Game = require("./game.js");
 
 var hangmanGame = new Game();
 var guessesRemaining = 10;
-var guessesTotal = 0;
+var displayPromptCount = 0;
+var wordToGuessInitial = hangmanGame.currentWord.displayWordCharPlaceholders();
 
 console.log("Let's play hangman.\n");
-console.log ("Word to guess: " + hangmanGame.currentWord.displayWordCharPlaceholders() + "\n");
+console.log("Word to guess: " + wordToGuessInitial + "\n");
 
 // console.log('first character in word: ', hangmanGame.currentWord.wordCharacters[0].character);
 
+
 var displayPrompt = function() {
-	if (guessesTotal < 10) {
+    if (displayPromptCount < 100) {
+        inquirer
+            .prompt([{
+                type: "input",
+                message: "Enter a letter:",
+                name: "playerLetter"
+            }]).then(function(guess) {
 
+                var guessedLetter = guess.playerLetter;
 
-inquirer
-	.prompt ([
-	{
-	type:"input",
-	message: "Enter a letter:",
-	name:"playerLetter"
-	}
-	]).then (function(guess) {
+                // console.log('Guessed letter', guessedLetter);
 
-		var guessedLetter = guess.playerLetter;
-		
-		// console.log('Guessed letter', guessedLetter);
+                var currentWordCharacters = hangmanGame.currentWord.wordCharacters;
 
-		currentWordCharacters = hangmanGame.currentWord.wordCharacters;
+                // console.log('current word length:', currentWordCharacters.length);
 
-		// console.log('current word length:', currentWordCharacters.length);
+                var wordToGuessSubsequent = hangmanGame.currentWord.reviewWordCharacter(guessedLetter);
 
-		console.log("\nWord to guess: " + hangmanGame.currentWord.reviewWordCharacter(guessedLetter))
+                console.log("\nWord to guess: " + wordToGuessSubsequent);
 
-		for (var i = 0; i < currentWordCharacters.length; i++) {
-			if (currentWordCharacters[i].character == guessedLetter) {
-				console.log("Your guess is correct.");
-				var correct = true;
-				guessesRemaining--;
-				console.log("Guesses remaining: " + guessesRemaining + "\n");
-				// return;	
-			}
-		}
-		if (correct !== true) {
-				console.log("Your guess is incorrect.");
-				guessesRemaining--;
-				console.log("Guesses remaining: " + guessesRemaining + "\n");
-			}
-		guessesTotal++;
-		displayPrompt();
-	
-	})
+                var correct = false;
 
-	} else {
-		console.log("Game Over.");
-	}
+                for (var i = 0; i < currentWordCharacters.length; i++) {
+                    if (currentWordCharacters[i].character == guessedLetter) {
+                        correct = true;
+                    }
+                }
+                if (correct == true) {
+                    console.log("Your guess is correct.");
+                    guessesRemaining--;
+                    console.log("Guesses remaining: " + guessesRemaining + "\n");
+                }
+                // Need to enter logic to end the game when the player guesses the word.
+                if (correct == false) {
+                    console.log("Your guess is incorrect.");
+                    guessesRemaining--;
+                    console.log("Guesses remaining: " + guessesRemaining + "\n");
+                }
+                if (guessesRemaining == 0) {
+                    console.log("You've used all your guesses.\nHere's another word: " + wordToGuessInitial + "\n");
+                    guessesRemaining = 10;
+                }
+
+                displayPromptCount++;
+
+                // console.log("Display prompt count: " + displayPromptCount);
+               
+                displayPrompt();
+
+                
+                
+            })
+
+    }
+
 };
 
 displayPrompt();
 
-
-
-
-
-
-
-
-
-
-// Accommodate multiple words in string.
-
 // Delete game.js?
 
-// comments. guess letter.
+// comments. guess letter? characters for letter? Create a constructor? Create a function?
 
-// Game over logic for a win.
+// Game over logic for a win. 
 
-// Need to provide another word when game over. Here's the next word:
-
-// Need to get rid of double guesses remaining.
-
+// Need to get a new word when the game is over.
 
