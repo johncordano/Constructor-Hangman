@@ -80,5 +80,6 @@ var displayPrompt = function() {
 // Run the displayPrompt function.
 displayPrompt();
 
+
 // Game over logic for a win doesn't consider words with spaces. Workaround: change text in letter file, and delete 2 words from word bank. 
 // Need to get a new word when the game is over.
