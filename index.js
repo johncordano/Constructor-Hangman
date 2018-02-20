@@ -1,6 +1,6 @@
-// The index file displays prompts, messages, and hangman words for the player, and includes logic to update the remaining guesses and to start and restart the game.
+// The index file creates random words for the player to guess, displays prompts, messages, and hangman words for the player, and includes logic to update the remaining guesses and to start and restart the game.
 var inquirer = require("inquirer");
-var Game = require("./game.js");
+var Word = require("./word.js");
 
 // Create global variables.
 var hangmanGame = new Game();
@@ -8,9 +8,19 @@ var guessesRemaining = 10;
 var displayPromptCount = 0;
 var playerGuessedWord = [];
 var wordToGuessInitial = hangmanGame.currentWord.displayWordCharPlaceholders();
+// Create the Game constructor function, which has no parameters.
+function Game() {
+    // Create the workBankproperty, which is an array of the words to guess.
+    this.wordBank = ["dragonfly", "skipper", "apple", "incisive", "boardwalks", "book club", "end table"];
+    // Create the randomWord property, which is a random word from the word bank.
+    this.randomWord = this.wordBank[Math.floor(Math.random() * this.wordBank.length)];
+    // Create the currentWord property, which is the random word as a new word.
+    this.currentWord = new Word(this.randomWord);    
+}
 // Display a game-start message and the number of placeholders in the hangman word to guess.
 console.log("Let's play hangman.\n");
 console.log("Word to guess: " + wordToGuessInitial + "\n");
+
 // Display a prompt for the player to enter a letter in the terminal.
 var displayPrompt = function() {
     if (displayPromptCount < 100) {
@@ -42,11 +52,11 @@ var displayPrompt = function() {
                     guessesRemaining--;
                     console.log("Guesses remaining: " + guessesRemaining + "\n");
                 }
-                // If the playerGuessedWord array length is the same as the currentWordCharacters length, display the appropriate message in the terminal, and set the remaining guesses to 10.
+                // If the playerGuessedWord array length is the same as the currentWordCharacters length, display the appropriate message in the terminal, set the remaining guesses to 10, and clear the playerGuessWord array to prepare for the next player-guessed letters.
                 if (playerGuessedWord.length == currentWordCharacters.length) {
+                    playerGuessedWord = [];
                     console.log("You've guessed the word.\nHere's another word: " + wordToGuessInitial + "\n");
                     guessesRemaining = 10;
-                    playerGuessedWord = [];
                 }
                 // If the correct variable is false, display the appropriate message in the terminal, decrease the remaining guesses by 1, and display a guesses-remaining message in the terminal.
                 if (correct == false) {
@@ -54,10 +64,11 @@ var displayPrompt = function() {
                     guessesRemaining--;
                     console.log("Guesses remaining: " + guessesRemaining + "\n");
                 }
-                // If the guesses remaining is 0, display the appropriate message in the terminal, and set the remaining guesses to 10.
+                // If the guesses remaining is 0, display the appropriate message in the terminal, set the remaining guesses to 10, and clear the playerGuessWord array to prepare for the next player-guessed letters.
                 if (guessesRemaining == 0) {
+                    playerGuessedWord = [];
                     console.log("You've used all your guesses.\nHere's another word: " + wordToGuessInitial + "\n");
-                    guessesRemaining = 10;
+                    guessesRemaining = 10;   
                 }
                 // Increase the display prompt count by 1.
                 displayPromptCount++;
@@ -69,6 +80,5 @@ var displayPrompt = function() {
 // Run the displayPrompt function.
 displayPrompt();
 
-// Delete game.js?
 // Game over logic for a win doesn't consider words with spaces. Workaround: change text in letter file, and delete 2 words from word bank. 
 // Need to get a new word when the game is over.
