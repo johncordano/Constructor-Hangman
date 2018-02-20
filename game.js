@@ -5,9 +5,7 @@ function Game() {
     this.wordBank = ["dragonfly", "skipper", "apple", "incisive", "boardwalks", "book club", "end table"];
     this.randomWord = this.wordBank[Math.floor(Math.random() * this.wordBank.length)];
     this.currentWord = new Word(this.randomWord);
+    
 }
-
-// console.log('random word:', hangman.randomWord);
-// console.log('current word:', hangman.currentWord);
 
 module.exports = Game;

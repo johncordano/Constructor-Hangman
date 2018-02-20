@@ -6,6 +6,7 @@ var Game = require("./game.js");
 var hangmanGame = new Game();
 var guessesRemaining = 10;
 var displayPromptCount = 0;
+var playerGuessedWord = [];
 var wordToGuessInitial = hangmanGame.currentWord.displayWordCharPlaceholders();
 // Display a game-start message and the number of placeholders in the hangman word to guess.
 console.log("Let's play hangman.\n");
@@ -28,10 +29,11 @@ var displayPrompt = function() {
                 console.log("\nWord to guess: " + wordToGuessSubsequent);
                 // Create a variable that indicates if the player's guess is correct.
                 var correct = false;
-                // Loop through the current word characters, compare each character to the player-guessed letter, and change the correct variable to true if a word character is the same as the player-guessed letter.
+                // Loop through the current word characters, compare each character to the player-guessed letter, and if a word character is the same as the player-guessed letter, change the correct variable to true and populate the playerGuessedWord array with the player-guessed letter.
                 for (var i = 0; i < currentWordCharacters.length; i++) {
                     if (currentWordCharacters[i].character == guessedLetter) {
                         correct = true;
+                        playerGuessedWord.push(guessedLetter);
                     }
                 }
                 // If the correct variable is true, display the appropriate message in the terminal, decrease the remaining guesses by 1, and display a guesses-remaining message in the terminal.
@@ -40,7 +42,12 @@ var displayPrompt = function() {
                     guessesRemaining--;
                     console.log("Guesses remaining: " + guessesRemaining + "\n");
                 }
-                // Need to enter logic to end the game when the player guesses the word.
+                // If the playerGuessedWord array length is the same as the currentWordCharacters length, display the appropriate message in the terminal, and set the remaining guesses to 10.
+                if (playerGuessedWord.length == currentWordCharacters.length) {
+                    console.log("You've guessed the word.\nHere's another word: " + wordToGuessInitial + "\n");
+                    guessesRemaining = 10;
+                    playerGuessedWord = [];
+                }
                 // If the correct variable is false, display the appropriate message in the terminal, decrease the remaining guesses by 1, and display a guesses-remaining message in the terminal.
                 if (correct == false) {
                     console.log("Your guess is incorrect.");
@@ -63,5 +70,5 @@ var displayPrompt = function() {
 displayPrompt();
 
 // Delete game.js?
-// Game over logic for a win. 
+// Game over logic for a win doesn't consider words with spaces. Workaround: change text in letter file, and delete 2 words from word bank. 
 // Need to get a new word when the game is over.
