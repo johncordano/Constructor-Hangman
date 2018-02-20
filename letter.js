@@ -3,6 +3,7 @@
 // Create the Letter constructor function, which has a hangman word character as its parameter.
 function Letter(character) {
     this.character = character;
+    // Create a property to indicate if the player has guessed the word character. This boolean property allows for blank spaces as word characters.
     this.guessed = character === ' ' ? true : false;
     // Create the processGuess function, which has a player-guessed letter as its parameter.
     this.processGuess = function(guessedLetter) {
@@ -21,17 +22,5 @@ function Letter(character) {
         }
     };
 }
-
-// // The following line simulates a hangman word character.
-// var wordCharacter = new Letter('c');
-
-// // The following lines simulates 3 player-guessed letters.
-// wordCharacter.processGuess('a');
-// console.log("enter an 'a' result: " + wordCharacter.displayLetter());
-// wordCharacter.processGuess('c');
-// console.log("enter a 'c' result: " + wordCharacter.displayLetter());
-// wordCharacter.processGuess('f');
-// console.log("enter an 'f' result: " + wordCharacter.displayLetter());
-
 
 module.exports = Letter;
