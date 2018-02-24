@@ -15,3 +15,4 @@ The following image shows the data that is displayed in the terminal for the han
 - JavaScript
 - node.js
 - Constructor functions
+- Inquirer node package
