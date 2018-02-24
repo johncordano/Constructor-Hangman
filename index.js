@@ -4,7 +4,7 @@ var Word = require("./word.js");
 
 // Create global variables.
 var hangmanGame = new Game();
-var guessesRemaining = 11;
+var guessesRemaining = 10;
 var displayPromptCount = 0;
 var playerGuessedWord = [];
 var wordToGuessInitial = hangmanGame.currentWord.displayWordCharPlaceholders();
@@ -27,8 +27,20 @@ var displayPrompt = function() {
         inquirer
             .prompt([{
                 type: "input",
-                message: "Enter a letter:",
-                name: "playerLetter"
+                message: "Enter a letter (Enter '$' to exit)",
+                name: "playerLetter",
+                validate: function(value) {
+                    // Exit the application when the user presses the 'q' key.
+                    if ((value) === "$") {
+                        console.log("\n  Exiting...");
+                        process.exit();
+                    }
+                    else if (isNaN(parseInt(value)) !== true) {
+                        console.log("\n  You must enter a letter.");
+                        return false;
+                    }
+                    return true;
+                }
             }]).then(function(guess) {
             	// Create a variable for the player-guessed letter.
                 var guessedLetter = guess.playerLetter;
@@ -58,19 +70,21 @@ var displayPrompt = function() {
                     guessesRemaining--;
                     console.log("Guesses remaining: " + guessesRemaining + "\n");
                 }
-                // If the playerGuessedWord array length is the same as the currentWordCharacters length, display the appropriate message in the terminal, set the remaining guesses to 11, and clear the playerGuessWord array to prepare for the next player-guessed letters.
+                // If the playerGuessedWord array length is the same as the currentWordCharacters length, display the appropriate message in the terminal, set the remaining guesses to 10, and clear the playerGuessWord array to prepare for the next player-guessed letters.
                 if (playerGuessedWord.length == currentWordCharacters.length) {
                     playerGuessedWord = [];
-                    guessesRemaining = 11;
-                    console.log("You've guessed the word. Press enter to play another game.\n");
-                    hangmanGame = new Game();   
+                    guessesRemaining = 10;
+                    console.log("You've guessed the word. Here's another word:\n");
+                    hangmanGame = new Game();
+                    console.log("\nWord to guess: " + hangmanGame.currentWord.displayWordCharPlaceholders());  
                 }
-                // If the guesses remaining is 0, display the appropriate message in the terminal, set the remaining guesses to 11, and clear the playerGuessWord array to prepare for the next player-guessed letters.
+                // If the guesses remaining is 0, display the appropriate message in the terminal, set the remaining guesses to 10, and clear the playerGuessWord array to prepare for the next player-guessed letters.
                 if (guessesRemaining == 0) {
                     playerGuessedWord = [];
-                    guessesRemaining = 11;
-                    console.log("You've used all your guesses. Press enter to play another game.\n");
-                    hangmanGame = new Game();   
+                    guessesRemaining = 10;
+                    console.log("You've used all your guesses. Here's another word:\n");
+                    hangmanGame = new Game();
+                    console.log("\nWord to guess: " + hangmanGame.currentWord.displayWordCharPlaceholders());    
                 }
                 // Increase the display prompt count by 1.
                 displayPromptCount++;
